@@ -67,8 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="diet\templates\diet.html" />
+    <Content Include="diet\templates\diets.html" />
     <Content Include="diet\templates\index.html" />
     <Content Include="diet\templates\login.html" />
+    <Content Include="diet\templates\meal.html" />
+    <Content Include="diet\templates\meals.html" />
     <Content Include="diet\templates\register.html" />
     <Content Include="forum\templates\forum.html" />
     <Content Include="forum\templates\post_list_admin.html" />

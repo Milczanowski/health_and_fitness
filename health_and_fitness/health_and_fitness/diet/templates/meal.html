@@ -1,0 +1,54 @@
+﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; font-size: 20px;">
+     <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <p style="font-size: 30px;"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:100px;height:100px;"/>{{ meal.Name}} </p>
+         <div>{{ meal.Creation_Data }}</div>
+         <div>{{ meal.Creator }}</div>
+         <div>RATIMG:{{ meal.get_rating }}</div>
+         <div>TIME: {{ meal.get_time}}</div>
+         <div>
+              {%for type in meal.Types.all %}
+              {{ type }}
+              {% endfor %}
+         </div>         
+         <div style="background-color: dodgerblue;">
+             {{ meal.Description}}
+         </div>
+        <table style="width: 100%; margin-top: 20px;">   
+        {% for ingre in meal.Ingredients.all %}
+            <tr style="height:40px; ">
+                <td><a href="/diet/ingre/{{ingre.id}}">{{ ingre.Ingredient }}</a></td>
+                <td><div style="text-align: left; ">{{ ingre.Number  }}</div></td> 
+                <td><div style="text-align: left; ">{{ ingre.Unit }}</div></td> 
+
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div style="margin-top:20px;">
+    <center>
+        <table style="width: 90%;">
+            {% for comm in meal.mealcomment_set.all %}
+                <tr>
+                    <td> <div>{{ comm.Author }}</div><div> {{ comm.Creation_Data}}</div></td>
+                    <td>{{ comm.Content }}</td>
+                </tr>
+            {% endfor%}
+        </table>
+    </center>
+    </div>
+        
+    {% if user.is_authenticated %}    
+    <center>
+        <div style="background-color:lightskyblue; width: 500px; color:black; margin-top: 50px;">
+            <center>
+            <form action="/diet/meal/add_com/" method="post">
+                {% csrf_token %}
+                <input type="hidden"  name="id" value="{{meal.id}}"/>
+                <textarea style="width:400px; height: 100px;" name="content"></textarea> 
+                <input type="submit" value="ADD COMMENT" />
+            </form>
+            </center>
+        </div>
+    </center>
+    {% endif %}
+</div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from diet.models import Ingredient, Dish, IngredientType,FoodIngredient, Unit, Diets, DietType
+from diet.models import Ingredient, Meal, IngredientType,FoodIngredient, Unit, Diets, DietType
 from django.db.models import Sum
 
 class UnitAdmin(admin.ModelAdmin):
@@ -9,13 +9,13 @@ class IngredientTypeAdmin(admin.ModelAdmin):
     list_display = ('Name', 'Creator', 'Creation_Data')
 
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('Name', 'Creator', 'dish_count', 'Creation_Data')
+    list_display = ('Name', 'Creator', 'meal_count', 'Creation_Data')
 
-    def dish_count(self, obj):
-        return Dish.objects.filter(Ingredients__Ingredient = obj).distinct().count()
+    def meal_count(self, obj):
+        return Meal.objects.filter(Ingredients__Ingredient = obj).distinct().count()
 
-class DishAdmin(admin.ModelAdmin):
-    list_display = ('Name', 'Creator', 'ingredient_count', 'types_count', 'Creation_Data')
+class MealAdmin(admin.ModelAdmin):
+    list_display = ('Name', 'Creator', 'ingredient_count', 'types_count','Time', 'Creation_Data', 'image')
 
     def ingredient_count(self, obj):
         return obj.Ingredients.count()
@@ -23,21 +23,28 @@ class DishAdmin(admin.ModelAdmin):
     def types_count(self, obj):
         return obj.Types.count()
 
-class FoodIngredientAdmin(admin.ModelAdmin):
-    list_display = ('Ingredient', 'Number', 'Unit', 'dish_count', 'Creation_Data')
+    def image(self, obj):
+        return '<img src="/media/%s" alt="%s" style="width:50px;height:50px;">' % (obj.Image, obj.Name)
 
-    def dish_count(self, obj):
-        return obj.dish_set.count()
+
+    image.allow_tags = True
+
+
+class FoodIngredientAdmin(admin.ModelAdmin):
+    list_display = ('Ingredient', 'Number', 'Unit', 'meal_count', 'Creation_Data')
+
+    def meal_count(self, obj):
+        return obj.meal_set.count()
 
 class DietTypeAdmin(admin.ModelAdmin):
     list_display = ('Name', 'Creator', 'Creation_Data')
 
 class DietsAdmin(admin.ModelAdmin):
-    list_display = ('Name', 'Creator', 'dishs_count', 'types_count', 'Creation_Data')
+    list_display = ('Name', 'Creator', 'meals_count', 'types_count', 'Creation_Data')
 
 
-    def dishs_count(self, obj):
-        return obj.Dishs.count()
+    def meals_count(self, obj):
+        return obj.Meals.count()
 
     def types_count(self, obj):
         return obj.Types.count()
@@ -46,7 +53,7 @@ class DietsAdmin(admin.ModelAdmin):
 admin.site.register(Unit, UnitAdmin)
 admin.site.register(IngredientType, IngredientTypeAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
-admin.site.register(Dish,DishAdmin)
+admin.site.register(Meal,MealAdmin)
 admin.site.register(FoodIngredient, FoodIngredientAdmin)
 admin.site.register(DietType, DietTypeAdmin)
 admin.site.register(Diets, DietsAdmin)

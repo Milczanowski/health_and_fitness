@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from diet import views
+from django.views.static import serve
 
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
      url(r'^login/$', views.login ,name = 'login'),
      url(r'^logout/$', views.logout ,name = 'logout'),
      url(r'^$', views.index ,name = 'index'),
+     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
 ]
