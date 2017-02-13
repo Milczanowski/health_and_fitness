@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Health &amp; Fitness</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+
+</head>
+<body>   
+        <div id="top_nav" >
+            <ul id="top_nav_ul">
+                <li id="top_nav_left"><a href="/" id="top_nav_a">DIETS</a></li>
+                <li id="top_nav_left"><a href="/meals" id="top_nav_a">MEALS</a></li>
+                <li id="top_nav_left"><a href="/forum" id="top_nav_a">FORUM</a></li>
+                {% if user.is_authenticated %}
+                <li id="top_nav_right" style="width: 180px;"><a href="/logout" id="top_nav_a">LOGOUT</a></li> 
+                <li id="top_nav_right" style="width: 250px;"><a href="/login" id="top_nav_a">YOUR ACCOUNT</a></li> 
+
+                {% else %}
+                <li id="top_nav_right"><a href="/login" id="top_nav_a">LOGIN</a></li>
+                <li id="top_nav_right"><a href="/register" id="top_nav_a">REGISTER</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div id="content">
+            <center>
+            {% autoescape off %}
+            {{ content }}
+            {% endautoescape %}
+            </center>
+        </div>
+</body>
+</html>

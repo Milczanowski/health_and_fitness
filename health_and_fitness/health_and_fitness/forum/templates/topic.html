@@ -1,0 +1,52 @@
+﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; font-size: 20px;">
+     <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <p style="font-size: 30px;">{{ topic.Name}}</p>
+         {{topic.Creation_Data}}
+         <div style="background-color: dodgerblue;">
+             {{ topic.Description}}
+         </div>
+        <table style="width: 100%;">   
+        {% for post in posts %}
+            <tr style="height:40px; ">
+                <td style="width: 150px;"><div>{{ post.Author }}</div><div style="font-size: 12px;">{{ post.Creation_Data}}</div></td>
+                <td><div style="text-align: left;  ">{{ post.Content}}</div></td> 
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div>
+        <center>
+        <table>
+            <tr>
+                {% for page in pages %}
+                {% if page != current_page %}
+                <td>
+                    <form action="/forum/{{ topic.id }}/" method="get">
+                    <input type="hidden"  value="{{ page }}" name="page"/>
+                    <input type="submit" value="{{ page}}" />
+                    </form>
+                </td>
+                {% else %}
+                <td>
+                    <input type="submit" value="{{ page}}" style="color:white; background-color:black;" />
+                </td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+        </table>
+        </center>
+    </div>
+    
+    <center>
+        <div style="background-color:lightskyblue; width: 500px; color:black;">
+            <center>
+            <form action="/forum/add_new_post/" method="post">
+                {% csrf_token %}
+                <input type="hidden"  name="topic_id" value="{{topic.id}}"/>
+                <textarea style="width:400px; height: 100px;" name="content"></textarea> 
+                <input type="submit" value="ADD NEW POST" />
+            </form>
+            </center>
+        </div>
+    </center>
+</div>

@@ -1,0 +1,57 @@
+<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; margin-top: 70px; font-size: 20px;">
+     <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <table style="width: 100%;">
+            <tr style="height: 50px; background-color:navy;">
+                <td>NAME</td>
+                <td>CREATOR</td>
+                <td>POSTS</td>
+                <td>LAST POST</td>
+                <td>DATE</td>
+            </tr>
+        {% for topic in topics %}
+            <tr style="height:40px; ">
+                <td><a href="/forum/{{ topic.id }}/">{{ topic.Name }}</a></td>
+                <td>{{ topic.Creator}}</td>
+                <td>{{ topic.post_set.count}}</td>
+                <td>{{ topic.post_set.latest.Author}} {{ topic.post_set.latest.Creation_Data}}</td>
+                <td>{{ topic.Creation_Data}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div>
+        <center>
+        <table>
+            <tr>
+                {% for page in pages %}
+                {% if page != current_page %}
+                <td>
+                    <form action="/forum" method="get">
+                    <input type="hidden"  value="{{ page }}" name="page"/>
+                    <input type="submit" value="{{ page}}" />
+                    </form>
+                </td>
+                {% else %}
+                <td>
+                    <input type="submit" value="{{ page}}" style="color:white; background-color:black;" />
+                </td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+        </table>
+        </center>
+    </div>
+    
+    <center>
+        <div style="background-color:lightskyblue; width: 500px; color:black;">
+            <center>
+            <form action="/forum/add_new_topic/" method="post">
+                {% csrf_token %}
+                NAME:<input type="text"  name="name"/> <br />
+                DESCRIPTION: <textarea style="width:400px; height: 100px;" name="desc"></textarea> 
+                <input type="submit" value="ADD NEW TOPIC" />
+            </form>
+            </center>
+        </div>
+    </center>
+</div>

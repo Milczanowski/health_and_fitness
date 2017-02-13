@@ -1,0 +1,8 @@
+﻿<table>   
+    {% for post in posts %}
+        <tr>
+            <td style="width: 150px;"><a href="{{ post.url }}"><div>{{ post.Author }}</div><div style="font-size: 12px;">{{ post.Creation_Data}}</div></a></td>
+                <td><div style="text-align: left;  ">{{ post.Content}}</div></td> 
+        </tr>
+    {% endfor %}
+</table>
