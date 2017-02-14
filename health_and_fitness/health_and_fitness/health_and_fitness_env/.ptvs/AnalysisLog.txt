@@ -2654,3 +2654,8 @@ C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Micro
 2017-02-11T12:23:16: Saving group "E:\GitHub\health_and_fitness\health_and_fitness\health_and_fitness\health_and_fitness_env\Lib\site-packages\django"
 2017-02-11T12:23:16: End of group "E:\GitHub\health_and_fitness\health_and_fitness\health_and_fitness\health_and_fitness_env\Lib\site-packages\django"
 2017-02-11T12:23:17: Deleting 0 files
+
+2017-02-14T12:25:26: Start analysis
+2017-02-14T12:25:26: [WARNING] Library was set explicitly - skipping path detection
+2017-02-14T12:25:26: IncludeModulesFromModulePath = win32com
+2017-02-14T12:25:26: Deleting 0 files

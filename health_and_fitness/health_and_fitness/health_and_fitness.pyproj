@@ -69,6 +69,8 @@
     <Content Include="diet\templates\diet.html" />
     <Content Include="diet\templates\diets.html" />
     <Content Include="diet\templates\index.html" />
+    <Content Include="diet\templates\ingre.html" />
+    <Content Include="diet\templates\ingres.html" />
     <Content Include="diet\templates\login.html" />
     <Content Include="diet\templates\meal.html" />
     <Content Include="diet\templates\meals.html" />

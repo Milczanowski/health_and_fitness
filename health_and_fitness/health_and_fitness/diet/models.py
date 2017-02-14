@@ -18,9 +18,18 @@ class Ingredient(models.Model):
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
     Description     = models.TextField(default= "", null = True, blank = True)
+    Types           = models.ManyToManyField(IngredientType) 
 
     def __unicode__(self):
         return self.Name
+
+class IngredientComment(models.Model):
+    Content         = models.TextField(default= "", null = False, blank =False)
+    Author          = models.ForeignKey(User, null = False, blank = False)
+    Creation_Data   = models.DateTimeField(default = timezone.now)
+    Ingredient            = models.ForeignKey(Ingredient, null = False, blank = False)
+
+
 
 class Unit(models.Model):
     Name            = models.CharField(max_length = 64, null = False, blank = False)

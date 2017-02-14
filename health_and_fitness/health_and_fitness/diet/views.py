@@ -4,12 +4,13 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as _logout, authenticate, login as _login
-from diet.models import Diet, Meal, MealComment, DietComment
+from diet.models import Diet, Meal, MealComment, DietComment, Ingredient, IngredientComment
 from django.core.paginator import Paginator, EmptyPage
 from django.core.exceptions import ObjectDoesNotExist
 
 diets_count = 20
 meals_count = 20
+ingres_count = 20
 
 def is_email_correct(email):
     try:
@@ -174,25 +175,44 @@ def ingres(request):
     if 'page' in request.GET:
         page = request.GET['page']
 
-    meals_all = Meal.objects.all()
-    meals = Paginator(meals_all, meals_count)
+    ingres_all = Ingredient.objects.all()
+    ingres = Paginator(ingres_all, ingres_count)
 
     try:
-        meals = meals.page(page)
+        ingres = ingres.page(page)
     except EmptyPage as e:
-        meals = meals.page(1)
+        ingres = ingres.page(1)
         page = 1
 
     pages = []
         
-    if meals.has_previous():
-        pages.append(meals.previous_page_number())
+    if ingres.has_previous():
+        pages.append(ingres.previous_page_number())
 
-    if meals.has_other_pages():
+    if ingres.has_other_pages():
         pages.append(page)
 
-    if meals.has_next():
-        pages.append(meals.next_page_number())
+    if ingres.has_next():
+        pages.append(ingres.next_page_number())
 
 
-    return render(request, 'index.html', {'content': render(request, 'meals.html', { 'meals': meals, 'pages': pages, 'current_page': page}).content}, content_type='application/xhtml+xml')
+    return render(request, 'index.html', {'content': render(request, 'ingres.html', { 'ingres': ingres, 'pages': pages, 'current_page': page}).content}, content_type='application/xhtml+xml')
+
+def ingre(request, ingre_id):
+    try:
+        ingre = Ingredient.objects.get(id = ingre_id)
+
+        return render(request, 'index.html', {'content': render(request, 'ingre.html', { 'ingre': ingre}).content}, content_type='application/xhtml+xml')
+    except ObjectDoesNotExist as e:
+        return redirect('/diet/ingres/')
+
+def ingre_add_com(request):
+    if request.method != 'POST':
+        return redirect('/')
+
+    if not request.user.is_authenticated():
+        return redirect('/login/')
+
+    ingre_com = IngredientComment(Author = request.user, Content = request.POST['content'], Ingredient_id = request.POST['id'])
+    ingre_com.save()
+    return redirect('/diet/ingre/%s/' % request.POST['id'])    

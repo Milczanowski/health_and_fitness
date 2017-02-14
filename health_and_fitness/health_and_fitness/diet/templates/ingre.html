@@ -1,0 +1,42 @@
+﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; font-size: 20px;">
+     <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <p style="font-size: 30px;"> <img src="/media/{{ingre.Image}}" alt="{{ ingre.Name }}" style="width:100px;height:100px;"/>{{ingre.Name}} </p>
+         <div>{{ ingre.Creation_Data }}</div>
+         <div>{{ ingre.Creator }}</div>
+         <div>
+              {%for type in ingre.Types.all %}
+              {{ type }}
+              {% endfor %}
+         </div>
+         <div style="background-color: dodgerblue;">
+             {{ ingre.Description}}
+         </div>
+    </div>
+    <div style="margin-top:20px;">
+    <center>
+        <table style="width: 90%;">
+            {% for comm in ingre.ingredientcomment_set.all %}
+                <tr>
+                    <td> <div>{{ comm.Author }}</div><div> {{ comm.Creation_Data}}</div></td>
+                    <td>{{ comm.Content }}</td>
+                </tr>
+            {% endfor%}
+        </table>
+    </center>
+    </div>
+        
+    {% if user.is_authenticated %}    
+    <center>
+        <div style="background-color:lightskyblue; width: 500px; color:black; margin-top: 50px;">
+            <center>
+            <form action="/diet/ingre/add_com/" method="post">
+                {% csrf_token %}
+                <input type="hidden"  name="id" value="{{ingre.id}}"/>
+                <textarea style="width:400px; height: 100px;" name="content"></textarea> 
+                <input type="submit" value="ADD COMMENT" />
+            </form>
+            </center>
+        </div>
+    </center>
+    {% endif %}
+</div>
