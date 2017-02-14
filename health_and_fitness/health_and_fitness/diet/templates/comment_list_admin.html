@@ -1,0 +1,8 @@
+﻿<table>   
+    {% for comment in comments %}
+        <tr>
+            <td style="width: 150px;"><a href="{{ comment.get_admin_url }}"><div>{{ comment.Author }}</div><div style="font-size: 12px;">{{ comment.Creation_Data }}</div></a></td>
+                <td><div style="text-align: left;  ">{{ comment.Content }}</div></td> 
+        </tr>
+    {% endfor %}
+</table>

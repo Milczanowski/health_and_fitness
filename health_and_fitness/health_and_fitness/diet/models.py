@@ -29,6 +29,11 @@ class IngredientComment(models.Model):
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Ingredient            = models.ForeignKey(Ingredient, null = False, blank = False)
 
+    def reference(self):
+        return self.Ingredient
+
+    def get_admin_url(self):
+        return '/admin/diet/ingredientcomment/%s/' % self.id
 
 
 class Unit(models.Model):
@@ -48,6 +53,15 @@ class FoodIngredient(models.Model):
     def __unicode__(self):
         return '%s %s of %s' % (self.Number, self.Unit, self.Ingredient)
 
+class MealType(models.Model):
+    Name            = models.CharField(max_length = 64, null = False, blank = False)
+    Creation_Data   = models.DateTimeField(default = timezone.now)
+    Creator         = models.ForeignKey(User, null = False, blank = False)
+    Description     = models.TextField(default= "", null = True, blank = True)
+
+    def __unicode__(self):
+        return self.Name
+
 
 class Meal(models.Model):
     Image           = models.ImageField(upload_to='meals_image/', default ='meals_image/default.jpg')
@@ -56,18 +70,19 @@ class Meal(models.Model):
     Creator         = models.ForeignKey(User, null = False, blank = False)
     Description     = models.TextField(default= "", null = True, blank = True)
     Ingredients     = models.ManyToManyField(FoodIngredient)
-    Types           = models.ManyToManyField(IngredientType)
-    Time            = models.TimeField(default= datetime.time(00,00)) 
+    Types           = models.ManyToManyField(MealType)
+    Time            = models.IntegerField(default = 0) 
     Rating          = models.IntegerField(default = 0)
     Rating_Count    = models.IntegerField(default = 0)
+    Difficulty      = models.IntegerField(default = 0)
 
     def get_rating(self):
         if self.Rating_Count == 0:
             return 0
-        return self.Rating/ self/Rating_Count
+        return self.Rating/ self.Rating_Count
 
     def get_time(self):
-        return self.Time.strftime('%H:%M:%S')
+        return '%s m' % self.Time
 
     def __unicode__(self):
         return self.Name
@@ -77,6 +92,12 @@ class MealComment(models.Model):
     Author          = models.ForeignKey(User, null = False, blank = False)
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Meal            = models.ForeignKey(Meal, null = False, blank = False)
+
+    def reference(self):
+        return self.Meal
+
+    def get_admin_url(self):
+        return '/admin/diet/mealcomment/%s/' % self.id
 
 
 class DietType(models.Model):
@@ -103,8 +124,6 @@ class Diet(models.Model):
         if self.Rating_Count == 0:
             return 0
         return self.Rating/ self/Rating_Count
-        
-
 
     def __unicode__(self):
         return self.Name
@@ -116,4 +135,8 @@ class DietComment(models.Model):
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Diet            = models.ForeignKey(Diet, null = False, blank = False)
 
-    
+    def reference(self):
+        return self.Diet
+
+    def get_admin_url(self):
+        return '/admin/diet/dietcomment/%s/' % self.id

@@ -1,4 +1,55 @@
-﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; margin-top: 70px; font-size: 20px;">
+﻿<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#showTypesButton").click(function ()
+        {
+            $("#expandableTypes").slideToggle();
+        });
+    });
+
+    $(document).ready(function () {
+        $("#showIngresButton").click(function () {
+            $("#expandableIngre").slideToggle();
+        });
+    });
+
+
+</script>
+
+<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; margin-top: 10px; font-size: 20px;">
+    <div>
+        <center>
+            <form>
+                <table>  
+                    <tr>
+                        <td>
+                            <input type="button" value="Show Types"       id="showTypesButton" />
+                        </td>
+                        <td>
+                            <input type="button" value="Show Ingredients" id="showIngresButton" />
+
+                        </td>
+                        <td>
+                            <input type="submit" value="SEARCH" />
+                        </td>
+                        </tr>
+                </table>
+
+               <div id="expandableTypes" style="display: none; background-color:antiquewhite; color:black;">
+               {%for type in types %}
+               <input type="checkbox" name="type" value="{{type.id}}" />{{ type.Name}} <br />
+               {% endfor %}
+               </div>
+
+               <div id="expandableIngre" style="display: none; background-color:burlywood; color:black;">
+               {%for ingre in ingres %}
+               <input type="checkbox" name="ingre" value="{{ingre.id}}" />{{ ingre.Name}} <br />
+               {% endfor %}
+               </div>
+            </form>
+        </center>
+    </div>
     <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
         <center>
             <table style="width: 100%; ">
@@ -9,6 +60,7 @@
                 <td>RATING</td>
                 <td>TYPES</td>
                 <td>TIME</td>
+                <td>DIFFICULTY</td>
                 <td>INGREDIENTS</td>
             </tr>
             {% for meal in meals %}
@@ -22,6 +74,7 @@
                       {% endfor%}
                 </td>
                 <td>{{ meal.get_time }} </td>
+                <td>{{ meal.Difficulty }}</td>
                 <td>{{ meal.Ingredients.count }}</td>
             </tr>
             {% endfor %}

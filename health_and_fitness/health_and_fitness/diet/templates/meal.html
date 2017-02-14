@@ -3,8 +3,9 @@
         <p style="font-size: 30px;"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:100px;height:100px;"/>{{ meal.Name}} </p>
          <div>{{ meal.Creation_Data }}</div>
          <div>{{ meal.Creator }}</div>
-         <div>RATING: {{ meal.get_rating }}</div>
-         <div>TIME: {{ meal.get_time}}</div>
+         <div>RATING    : {{ meal.get_rating }}</div>
+         <div>TIME      : {{ meal.get_time}}</div>
+         <div>DIFFICULTY: {{ meal.Difficulty}}</div>
          <div>
               {%for type in meal.Types.all %}
               {{ type }}

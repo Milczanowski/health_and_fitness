@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as _logout, authenticate, login as _login
-from diet.models import Diet, Meal, MealComment, DietComment, Ingredient, IngredientComment
+from diet.models import Diet, Meal, MealComment, DietComment, Ingredient, IngredientComment,  MealType
 from django.core.paginator import Paginator, EmptyPage
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -134,7 +134,7 @@ def meals(request):
         pages.append(meals.next_page_number())
 
 
-    return render(request, 'index.html', {'content': render(request, 'meals.html', { 'meals': meals, 'pages': pages, 'current_page': page}).content}, content_type='application/xhtml+xml')
+    return render(request, 'index.html', {'content': render(request, 'meals.html', { 'meals': meals, 'pages': pages, 'current_page': page, 'types': MealType.objects.all(), 'ingres': Ingredient.objects.all() }).content}, content_type='application/xhtml+xml')
 
 
 def meal(request, meal_id):
