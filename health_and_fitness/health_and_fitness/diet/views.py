@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as _logout, authenticate, login as _login
-from diet.models import Diets, Meal, MealComment
+from diet.models import Diet, Meal, MealComment, DietComment
 from django.core.paginator import Paginator, EmptyPage
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -24,7 +24,7 @@ def index(request):
     if 'page' in request.GET:
         page = request.GET['page']
 
-    diets_all = Diets.objects.all()
+    diets_all = Diet.objects.all()
     diets = Paginator(diets_all, diets_count)
 
     try:
@@ -100,7 +100,12 @@ def logout(request):
     return redirect('/')
 
 def diet(request, diet_id):
-    pass
+    try:
+        diet = Diet.objects.get(id = diet_id)
+
+        return render(request, 'index.html', {'content': render(request, 'diet.html', { 'diet': diet}).content}, content_type='application/xhtml+xml')
+    except ObjectDoesNotExist as e:
+        return redirect('/')
 
 def meals(request):
     page = 1
@@ -150,4 +155,44 @@ def meal_add_com(request):
     meal_com = MealComment(Author = request.user, Content = request.POST['content'], Meal_id = request.POST['id'])
     meal_com.save()
     return redirect('/diet/meal/%s/' % request.POST['id'])
-    
+
+
+def diet_add_com(request):
+    if request.method != 'POST':
+        return redirect('/')
+
+    if not request.user.is_authenticated():
+        return redirect('/login/')
+
+    diet_com = DietComment(Author = request.user, Content = request.POST['content'], Diet_id = request.POST['id'])
+    diet_com.save()
+    return redirect('/diet/%s/' % request.POST['id'])    
+
+
+def ingres(request):
+    page = 1
+    if 'page' in request.GET:
+        page = request.GET['page']
+
+    meals_all = Meal.objects.all()
+    meals = Paginator(meals_all, meals_count)
+
+    try:
+        meals = meals.page(page)
+    except EmptyPage as e:
+        meals = meals.page(1)
+        page = 1
+
+    pages = []
+        
+    if meals.has_previous():
+        pages.append(meals.previous_page_number())
+
+    if meals.has_other_pages():
+        pages.append(page)
+
+    if meals.has_next():
+        pages.append(meals.next_page_number())
+
+
+    return render(request, 'index.html', {'content': render(request, 'meals.html', { 'meals': meals, 'pages': pages, 'current_page': page}).content}, content_type='application/xhtml+xml')

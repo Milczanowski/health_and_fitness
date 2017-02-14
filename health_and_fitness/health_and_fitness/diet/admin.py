@@ -1,5 +1,5 @@
 from django.contrib import admin
-from diet.models import Ingredient, Meal, IngredientType,FoodIngredient, Unit, Diets, DietType
+from diet.models import Ingredient, Meal, IngredientType,FoodIngredient, Unit, Diet, DietType
 from django.db.models import Sum
 
 class UnitAdmin(admin.ModelAdmin):
@@ -9,10 +9,14 @@ class IngredientTypeAdmin(admin.ModelAdmin):
     list_display = ('Name', 'Creator', 'Creation_Data')
 
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('Name', 'Creator', 'meal_count', 'Creation_Data')
+    list_display = ('Name', 'Creator', 'meal_count', 'Creation_Data','image')
 
     def meal_count(self, obj):
         return Meal.objects.filter(Ingredients__Ingredient = obj).distinct().count()
+
+    def image(self, obj):
+        return '<img src="/media/%s" alt="%s" style="width:50px;height:50px;">' % (obj.Image, obj.Name)
+    image.allow_tags = True
 
 class MealAdmin(admin.ModelAdmin):
     list_display = ('Name', 'Creator', 'ingredient_count', 'types_count','Time', 'Creation_Data', 'image')
@@ -25,8 +29,6 @@ class MealAdmin(admin.ModelAdmin):
 
     def image(self, obj):
         return '<img src="/media/%s" alt="%s" style="width:50px;height:50px;">' % (obj.Image, obj.Name)
-
-
     image.allow_tags = True
 
 
@@ -56,4 +58,4 @@ admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Meal,MealAdmin)
 admin.site.register(FoodIngredient, FoodIngredientAdmin)
 admin.site.register(DietType, DietTypeAdmin)
-admin.site.register(Diets, DietsAdmin)
+admin.site.register(Diet, DietsAdmin)

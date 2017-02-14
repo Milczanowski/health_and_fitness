@@ -1,5 +1,69 @@
-﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; margin-top: 70px; font-size: 20px;">
-    <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
-
+﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; font-size: 20px;">
+     <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <p style="font-size: 30px;">{{ diet.Name}} </p>
+         <div>{{ diet.Creation_Data }}</div>
+         <div>{{ diet.Creator }}</div>
+         <div>RATING: {{ diet.get_rating }}</div>
+         <div>
+              {%for type in diet.Types.all %}
+              {{ type }}
+              {% endfor %}
+         </div>         
+         <div style="background-color: dodgerblue;">
+             {{ diet.Description}}
+         </div>
+            MEALS:
+            <table style="width: 100%; margin-top: 20px;">
+            <tr style="height: 50px; background-color:navy;">
+                <td></td>
+                <td>NAME</td>
+                <td>CREATOR</td>
+                <td>RATING</td>
+                <td>TYPES</td>
+                <td>TIME</td>
+                <td>INGREDIENTS</td>
+            </tr>
+            {% for meal in diet.Meals.all %}
+            <tr>
+                <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a></td>
+                <td> <a href="/diet/meal/{{meal.id}}/">{{ meal.Name }}</a></td>
+                <td> {{ meal.Creator}}    </td>
+                <td> {{ meal.get_rating}} </td>
+                <td>  {% for type in meal.Types.all%}
+                      <div>{{type}}</div>
+                      {% endfor%}
+                </td>
+                <td>{{ meal.get_time }} </td>
+                <td>{{ meal.Ingredients.count }}</td>
+            </tr>
+            {% endfor %}
+            </table>
     </div>
+    <div style="margin-top:20px;">
+    <center>
+        <table style="width: 90%;">
+            {% for comm in diet.dietcomment_set.all %}
+                <tr>
+                    <td> <div>{{ comm.Author }}</div><div> {{ comm.Creation_Data}}</div></td>
+                    <td>{{ comm.Content }}</td>
+                </tr>
+            {% endfor%}
+        </table>
+    </center>
+    </div>
+        
+    {% if user.is_authenticated %}    
+    <center>
+        <div style="background-color:lightskyblue; width: 500px; color:black; margin-top: 50px;">
+            <center>
+            <form action="/diet/add_com/" method="post">
+                {% csrf_token %}
+                <input type="hidden"  name="id" value="{{diet.id}}"/>
+                <textarea style="width:400px; height: 100px;" name="content"></textarea> 
+                <input type="submit" value="ADD COMMENT" />
+            </form>
+            </center>
+        </div>
+    </center>
+    {% endif %}
 </div>

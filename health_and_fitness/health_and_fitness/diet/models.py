@@ -13,6 +13,7 @@ class IngredientType(models.Model):
         return self.Name
 
 class Ingredient(models.Model):
+    Image           = models.ImageField(upload_to='ingre_image/', default ='ingre_image/default.jpg')
     Name            = models.CharField(max_length = 64, null = False, blank = False)
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
@@ -79,7 +80,7 @@ class DietType(models.Model):
         return self.Name
 
 
-class Diets(models.Model):
+class Diet(models.Model):
     Name            = models.CharField(max_length = 64, null = False, blank = False)
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
@@ -99,5 +100,11 @@ class Diets(models.Model):
     def __unicode__(self):
         return self.Name
 
+
+class DietComment(models.Model):
+    Content         = models.TextField(default= "", null = False, blank =False)
+    Author          = models.ForeignKey(User, null = False, blank = False)
+    Creation_Data   = models.DateTimeField(default = timezone.now)
+    Diet            = models.ForeignKey(Diet, null = False, blank = False)
 
     
