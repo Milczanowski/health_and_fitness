@@ -18,7 +18,6 @@ class Ingredient(models.Model):
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
     Description     = models.TextField(default= "", null = True, blank = True)
-    Voters          = models.ManyToManyField(User, blank = True, related_name='voters_ingre')
     Types           = models.ManyToManyField(IngredientType)
 
     def __unicode__(self):
