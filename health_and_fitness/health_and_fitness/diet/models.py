@@ -18,10 +18,12 @@ class Ingredient(models.Model):
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
     Description     = models.TextField(default= "", null = True, blank = True)
-    Types           = models.ManyToManyField(IngredientType) 
+    Voters          = models.ManyToManyField(User, blank = True, related_name='voters_ingre')
+    Types           = models.ManyToManyField(IngredientType)
 
     def __unicode__(self):
         return self.Name
+
 
 class IngredientComment(models.Model):
     Content         = models.TextField(default= "", null = False, blank =False)
@@ -75,17 +77,33 @@ class Meal(models.Model):
     Rating          = models.IntegerField(default = 0)
     Rating_Count    = models.IntegerField(default = 0)
     Difficulty      = models.IntegerField(default = 0)
+    c_ratting        = models.FloatField(default = 0)
+    Voters          = models.ManyToManyField(User, blank = True, related_name='voters_meal')
+
 
     def get_rating(self):
         if self.Rating_Count == 0:
             return 0
-        return self.Rating/ self.Rating_Count
+        return self.Rating/ float(self.Rating_Count)
 
     def get_time(self):
         return '%s m' % self.Time
 
     def __unicode__(self):
         return self.Name
+
+    def save(self, force_insert = False, force_update = False, using = None, update_fields = None):
+        self.c_ratting = self.get_rating()
+        return super(Meal, self).save(force_insert, force_update, using, update_fields)
+
+    def rating_enable(self, user):
+        return not self.Voters.filter(id = user.id).exists()
+
+    def add_rating(self, user, rating):
+        self.Rating+= rating
+        self.Rating_Count+=1
+        self.Voters.add(user)
+        self.save()
 
 class MealComment(models.Model):
     Content         = models.TextField(default= "", null = False, blank =False)
@@ -119,14 +137,24 @@ class Diet(models.Model):
     Description     = models.TextField(default= "", null = True, blank = True)
     Rating          = models.IntegerField(default = 0)
     Rating_Count    = models.IntegerField(default = 0)
+    Voters          = models.ManyToManyField(User, blank = True, related_name='voters_diet')
 
     def get_rating(self):
         if self.Rating_Count == 0:
             return 0
-        return self.Rating/ self/Rating_Count
+        return self.Rating/ float(self.Rating_Count)
 
     def __unicode__(self):
         return self.Name
+
+    def rating_enable(self, user):
+        return not self.Voters.filter(id = user.id).exists()
+
+    def add_rating(self, user, rating):
+        self.Rating+= rating
+        self.Rating_Count+=1
+        self.Voters.add(user)
+        self.save()
 
 
 class DietComment(models.Model):

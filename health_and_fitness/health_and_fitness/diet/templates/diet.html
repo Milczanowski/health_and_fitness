@@ -38,7 +38,34 @@
             </tr>
             {% endfor %}
             </table>
+
+
     </div>
+   {% if user.is_authenticated and rating_enable %}
+    <center>
+        <div style="background-color:lightskyblue; width: 500px; color:black; margin-top: 50px;">
+            <center>
+            <form action="/diet/rate/" method="post">
+                {% csrf_token %}
+                <input type="hidden"  name="id" value="{{diet.id}}"/>
+                <table>
+                    <tr>
+                        <td><input type="radio" name="rate" value="1" />1</td>
+                        <td><input type="radio" name="rate" value="2" />2</td>
+                        <td><input type="radio" name="rate" value="3" />3</td>
+                        <td><input type="radio" name="rate" value="4" />4</td>
+                        <td><input type="radio" name="rate" value="5" />5</td>
+                        <td><input type="radio" name="rate" value="6" />6</td>
+                        <td><input type="submit" value="RATE" /></td>
+                    </tr>
+                </table>
+            </form>
+            </center>
+        </div>
+    </center>
+    {% endif %}
+
+
     <div style="margin-top:20px;">
     <center>
         <table style="width: 90%;">
@@ -52,7 +79,7 @@
     </center>
     </div>
         
-    {% if user.is_authenticated %}    
+    {% if user.is_authenticated %}
     <center>
         <div style="background-color:lightskyblue; width: 500px; color:black; margin-top: 50px;">
             <center>

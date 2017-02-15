@@ -4,13 +4,31 @@
     $(document).ready(function() {
         $("#showTypesButton").click(function ()
         {
+            button = document.getElementById("showTypesButton");
+            if (button.value == 'Show Types') button.value = 'Hide Types';
+            else button.value = 'Show Types';
+
             $("#expandableTypes").slideToggle();
         });
     });
 
     $(document).ready(function () {
         $("#showIngresButton").click(function () {
+            button = document.getElementById("showIngresButton");
+            if (button.value == 'Show Ingredients') button.value = 'Hide Ingredients';
+            else button.value = 'Show Ingredients';
             $("#expandableIngre").slideToggle();
+
+        });
+    });
+
+    $(document).ready(function () {
+        $("#showTimeFilterButton").click(function () {
+            button = document.getElementById("showTimeFilterButton");
+            if (button.value == 'Show Filters') button.value = 'Hide Filters';
+            else button.value = 'Show Filters';
+            $("#expandableTimeFilter").slideToggle();
+
         });
     });
 
@@ -20,7 +38,8 @@
 <div style="background-color: dimgrey; width:1000px; text-align:left; color:white; margin-top: 10px; font-size: 20px;">
     <div>
         <center>
-            <form>
+            <form action="/diet/meals/" method="post" id="postform">
+                {% csrf_token %}
                 <table>  
                     <tr>
                         <td>
@@ -31,21 +50,43 @@
 
                         </td>
                         <td>
+                            <input type="button" value="Show Filters" id="showTimeFilterButton" />
+
+                        </td>
+                        <td>
                             <input type="submit" value="SEARCH" />
                         </td>
                         </tr>
                 </table>
 
+               <div id="expandableTimeFilter" style="display: none; background-color:bisque; color:black;">
+                    <div>MAX TIME:<input type="number" value="0" name="max_time" />"0 means no limit"</div>
+                    <div>MIN RATING:<input type="number" value="0" name="min_rat" />"0 means no limit"</div>
+                    <div>MAX Difficulty:<input type="number" value="0" name="max_diff" />"0 means no limit"</div>
+               </div>
+
                <div id="expandableTypes" style="display: none; background-color:antiquewhite; color:black;">
-               {%for type in types %}
-               <input type="checkbox" name="type" value="{{type.id}}" />{{ type.Name}} <br />
+               <table>
+               {%for types in typess %}
+                    <tr>
+                        {%for type in types %}
+                            <td><input type="checkbox" name="type" value="{{type.id}}" />{{ type.Name}}</td>
+                        {% endfor %}
+                   </tr>
                {% endfor %}
+               </table>
                </div>
 
                <div id="expandableIngre" style="display: none; background-color:burlywood; color:black;">
-               {%for ingre in ingres %}
-               <input type="checkbox" name="ingre" value="{{ingre.id}}" />{{ ingre.Name}} <br />
-               {% endfor %}
+               <table>
+                   {%for ingres in ingress %}
+                    <tr>
+                        {%for ingre in ingres %}
+                        <td><input type="checkbox" name="ingre" value="{{ingre.id}}" />{{ ingre.Name}}</td>
+                        {% endfor %}
+                     </tr>
+                   {% endfor %}
+               </table>
                </div>
             </form>
         </center>

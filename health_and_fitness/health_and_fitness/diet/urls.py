@@ -4,6 +4,8 @@ from diet import views
 
 urlpatterns = [
      url(r'^(?P<diet_id>[0-9]+)/', views.diet ,name = 'diet'),
+     url(r'meal/rate/', views.rate_meal,name = 'rate_meal'),   
+     url(r'rate/', views.rate_diet ,name = 'rate_diet'),     
      url(r'meal/add_com/', views.meal_add_com ,name = 'meal_add_com'),
      url(r'ingre/add_com/', views.ingre_add_com ,name = 'ingre_add_com'),
      url(r'add_com/', views.diet_add_com ,name = 'diet_add_com'),
