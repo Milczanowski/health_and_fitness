@@ -105,8 +105,10 @@
                 <td>INGREDIENTS</td>
             </tr>
             {% for meal in meals %}
-            <tr id="meals_table_tr">
-                <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a></td>
+            <tr id="meals_table_tr" class="tooltip">
+                <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a>
+                <span class="tooltiptext"> {{ meal.Description }}</span>
+                </td>
                 <td> <a href="/diet/meal/{{meal.id}}/">{{ meal.Name }}</a></td>
                 <td> {{ meal.Creator}}    </td>
                 <td> {{ meal.get_rating}} </td>

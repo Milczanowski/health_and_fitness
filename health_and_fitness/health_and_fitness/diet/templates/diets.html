@@ -9,8 +9,10 @@
                 <td>TYPES</td>
             </tr>
             {% for diet in diets %}
-            <tr>
-                <td> <a href="/diet/{{diet.id}}/">{{ diet.Name }}</a></td>
+            <tr class="tooltip">
+                <td> <a href="/diet/{{diet.id}}/">{{ diet.Name }}</a>
+                <span class="tooltiptext"> {{ diet.Description }}</span>
+                </td>
                 <td> {{ diet.Creator}}    </td>
                 <td> {{ diet.get_rating}} </td>
                 <td>  {% for type in diet.Types.all%}

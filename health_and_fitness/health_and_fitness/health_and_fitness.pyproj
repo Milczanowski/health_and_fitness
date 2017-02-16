@@ -29,6 +29,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="accounts\admin.py" />
+    <Compile Include="accounts\apps.py" />
+    <Compile Include="accounts\migrations\__init__.py" />
+    <Compile Include="accounts\models.py" />
+    <Compile Include="accounts\tests.py" />
+    <Compile Include="accounts\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="accounts\views.py" />
+    <Compile Include="accounts\__init__.py" />
     <Compile Include="diet\admin.py" />
     <Compile Include="diet\apps.py" />
     <Compile Include="diet\migrations\__init__.py" />
@@ -56,6 +66,9 @@
     <Compile Include="health_and_fitness\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="accounts\" />
+    <Folder Include="accounts\migrations\" />
+    <Folder Include="accounts\templates\" />
     <Folder Include="diet\" />
     <Folder Include="diet\migrations\" />
     <Folder Include="diet\templates\" />
@@ -66,6 +79,8 @@
     <Folder Include="static\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="accounts\templates\add_meal.html" />
+    <Content Include="accounts\templates\user_account.html" />
     <Content Include="diet\templates\diet.html" />
     <Content Include="diet\templates\diets.html" />
     <Content Include="diet\templates\index.html" />
@@ -80,6 +95,7 @@
     <Content Include="forum\templates\topic.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
+    <Content Include="static\js_ajax.js" />
     <Content Include="static\style.css" />
   </ItemGroup>
   <ItemGroup>

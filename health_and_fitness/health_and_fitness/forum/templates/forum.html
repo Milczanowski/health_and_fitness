@@ -9,8 +9,10 @@
                 <td>DATE</td>
             </tr>
         {% for topic in topics %}
-            <tr style="height:40px; ">
-                <td><a href="/forum/{{ topic.id }}/">{{ topic.Name }}</a></td>
+            <tr style="height:40px;" class="tooltip">
+                <td><a href="/forum/{{ topic.id }}/">{{ topic.Name }}</a>
+                <span class="tooltiptext"> {{ topic.Description }}</span>
+                </td>
                 <td>{{ topic.Creator}}</td>
                 <td>{{ topic.post_set.count}}</td>
                 <td>{{ topic.post_set.latest.Author}} {{ topic.post_set.latest.Creation_Data}}</td>

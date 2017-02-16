@@ -9,18 +9,20 @@
                     <td>
                         <p style="font-size: 30px;">{{ meal.Name}}</p>
                     </td>
-                    <td style="height: 100px; width: 100px;">
+                    <td style="height: 100px; width: 100px;" class="tooltip">
                         {% if is_favorite %}
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="remove_from_f" />
                                 <input  type="image" src="/media/heart_on.png" alt="REMOVE FROM FAVORITES" style="width:100px;height:100px;" />
+                                <span class="tooltiptext">REMOVE FROM FAVORITES</span>
                             </form>
                         {% else %}
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="add_to_f" />
                                 <input  type="image" src="/media/heart_off.png" alt="ADD TO FAVORITES" style="width:100px;height:100px;"/>
+                                <span class="tooltiptext">ADD TO FAVORITES</span>
                             </form>
                         {% endif %}
                     </td>
@@ -34,7 +36,10 @@
          <div>DIFFICULTY: {{ meal.Difficulty}}</div>
          <div>
               {%for type in meal.Types.all %}
-              {{ type }}
+             <div class="tooltip">
+                {{ type }}
+                 <span class="tooltiptext">{{type.Description}}</span>
+              </div>
               {% endfor %}
          </div>         
          <div style="background-color: dodgerblue;">
@@ -42,11 +47,12 @@
          </div>
         <table style="width: 100%; margin-top: 20px;">   
         {% for ingre in meal.Ingredients.all %}
-            <tr style="height:40px; ">
-                <td><a href="/diet/ingre/{{ingre.id}}">{{ ingre.Ingredient }}</a></td>
+            <tr style="height:40px;" class="tooltip">
+                <td><a href="/diet/ingre/{{ingre.id}}">{{ ingre.Ingredient }}</a>
+                <span class="tooltiptext">{{ ingre.Ingredient.Description}}</span>
+                </td>
                 <td><div style="text-align: left; ">{{ ingre.Number  }}</div></td> 
                 <td><div style="text-align: left; ">{{ ingre.Unit }}</div></td> 
-
             </tr>
         {% endfor %}
         </table>

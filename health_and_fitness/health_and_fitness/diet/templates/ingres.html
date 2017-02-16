@@ -9,8 +9,10 @@
                 <td>TYPES</td>
             </tr>
             {% for ingre in ingres %}
-            <tr>
-                <td><a href="/diet/ingre/{{ingre.id}}/"> <img src="/media/{{ingre.Image}}" alt="{{ ingre.Name }}" style="width:50px;height:50px;"/></a></td>
+            <tr class="tooltip">
+                <td><a href="/diet/ingre/{{ingre.id}}/"> <img src="/media/{{ingre.Image}}" alt="{{ ingre.Name }}" style="width:50px;height:50px;"/></a>
+                <span class="tooltiptext"> {{ ingre.Description }}</span>
+                </td>
                 <td> <a href="/diet/ingre/{{ingre.id}}/">{{ ingre.Name }}</a></td>
                 <td> {{ ingre.Creator}}    </td>
                 <td>  {% for type in ingre.Types.all%}

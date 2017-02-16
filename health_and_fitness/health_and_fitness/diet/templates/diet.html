@@ -6,18 +6,21 @@
                     <td>
                         <p style="font-size: 30px;">{{ diet.Name}}</p>
                     </td>
-                    <td style="height: 100px; width: 100px;">
+                    <td style="height: 100px; width: 100px;" class="tooltip">
                         {% if is_favorite %}
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="remove_from_f" />
                                 <input  type="image" src="/media/heart_on.png" alt="REMOVE FROM FAVORITES" style="width:100px;height:100px;" />
+                                <span class="tooltiptext">REMOVE FROM FAVORITES</span>
                             </form>
+
                         {% else %}
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="add_to_f" />
                                 <input  type="image" src="/media/heart_off.png" alt="ADD TO FAVORITES" style="width:100px;height:100px;"/>
+                                <span class="tooltiptext">ADD TO FAVORITES</span>
                             </form>
                         {% endif %}
                     </td>
@@ -44,19 +47,25 @@
                 <td>RATING</td>
                 <td>TYPES</td>
                 <td>TIME</td>
+                <td>DIFFICULTY</td>
                 <td>INGREDIENTS</td>
             </tr>
             {% for meal in diet.Meals.all %}
-            <tr>
-                <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a></td>
+            <tr class="tooltip">
+                <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a>
+                <span class="tooltiptext"> {{ meal.Description }}</span>
+                </td>
                 <td> <a href="/diet/meal/{{meal.id}}/">{{ meal.Name }}</a></td>
                 <td> {{ meal.Creator}}    </td>
                 <td> {{ meal.get_rating}} </td>
                 <td>  {% for type in meal.Types.all%}
-                      <div>{{type}}</div>
+                      <div class="tooltip">{{type}}
+                      <span class="tooltiptext"> {{ type.Description }}</span>
+                      </div>
                       {% endfor%}
                 </td>
                 <td>{{ meal.get_time }} </td>
+                <td>{{ meal.Difficulty}}</td>
                 <td>{{ meal.Ingredients.count }}</td>
             </tr>
             {% endfor %}
