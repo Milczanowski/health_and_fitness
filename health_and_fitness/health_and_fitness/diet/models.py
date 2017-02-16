@@ -2,15 +2,44 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
+import json
+
+class JSONObjects(object):
+    def __init__(self, obj):
+        self.Name           = obj.Name
+        self.ID             = obj.id
+        self.Creation_Data  = obj.Creation_Data.strftime('%m/%d/%Y %H:%M:%S')
+        self.Creator        = obj.Creator.username
+
+    def __unicode__(self):
+        return json.dumps(self.__dict__) 
+
+    def __str__(self):
+        return self.__unicode__()
+
+class JSONObjectsD(JSONObjects):
+    def __init__(self, obj):
+        self.Description    = obj.Description
+        super(JSONObjectsD, self).__init__(obj)
+
+
+class JSONObjectsT(JSONObjectsD):
+    def __init__(self, obj):
+        self.Types = [ t.get_json() for t in obj.Types.all()]
+        super(JSONObjectsT, self).__init__(obj)
+    
 
 class IngredientType(models.Model):
-    Name            = models.CharField(max_length = 64, null = False, blank = False)
+    Name            = models.CharField(max_length = 64, null = False, blank = False, unique = True)
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
     Description     = models.TextField(default= "", null = True, blank = True)
 
     def __unicode__(self):
         return self.Name
+
+    def get_json(self):
+        return str(JSONObjectsD(self))
 
 class Ingredient(models.Model):
     Image           = models.ImageField(upload_to='ingre_image/', default ='ingre_image/default.jpg')
@@ -22,6 +51,15 @@ class Ingredient(models.Model):
 
     def __unicode__(self):
         return self.Name
+
+    class JSONIngredient(JSONObjectsT):
+        def __init__(self, obj):
+            self.Types = list(obj.Types.values_list('id','Name'))
+            self.Image = obj.Image.url
+            super(Ingredient.JSONIngredient, self).__init__(obj)
+
+    def get_json(self):
+        return str(Ingredient.JSONIngredient(self))
 
 
 class IngredientComment(models.Model):
@@ -38,12 +76,15 @@ class IngredientComment(models.Model):
 
 
 class Unit(models.Model):
-    Name            = models.CharField(max_length = 64, null = False, blank = False)
+    Name            = models.CharField(max_length = 64, null = False, blank = False, unique = True)
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
 
     def __unicode__(self):
         return self.Name
+
+    def get_json(self):
+        return str(JSONObjects(self))
 
 class FoodIngredient(models.Model):
     Ingredient      = models.ForeignKey(Ingredient, null = False, blank = False)
@@ -55,13 +96,16 @@ class FoodIngredient(models.Model):
         return '%s %s of %s' % (self.Number, self.Unit, self.Ingredient)
 
 class MealType(models.Model):
-    Name            = models.CharField(max_length = 64, null = False, blank = False)
+    Name            = models.CharField(max_length = 64, null = False, blank = False, unique = True)
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
     Description     = models.TextField(default= "", null = True, blank = True)
 
     def __unicode__(self):
         return self.Name
+
+    def get_json(self):
+        return str(JSONObjectsD(self))
 
 
 class Meal(models.Model):
@@ -118,7 +162,7 @@ class MealComment(models.Model):
 
 
 class DietType(models.Model):
-    Name            = models.CharField(max_length = 64, null = False, blank = False)
+    Name            = models.CharField(max_length = 64, null = False, blank = False, unique = True)
     Creation_Data   = models.DateTimeField(default = timezone.now)
     Creator         = models.ForeignKey(User, null = False, blank = False)
     Description     = models.TextField(default= "", null = True, blank = True)

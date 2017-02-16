@@ -14,4 +14,9 @@ urlpatterns = [
      url(r'ingres/', views.ingres ,name = 'ingres'),
      url(r'ingre/(?P<ingre_id>[0-9]+)/', views.ingre ,name = 'ingre'),
 
+     url(r'add_unit/', views.add_unit ,name = 'add_unit'),
+     url(r'add_ingre_type/', views.add_ingre_type, name = 'add_ingre_type'),
+     url(r'add_ingre/', views.add_ingre, name = 'add_ingre'),
+     url(r'add_meal_type/', views.add_meal_type, name = 'add_meal_type'),
+     url(r'add_recipe/', views.add_recipe ,name = 'add_recipe'),
 ]

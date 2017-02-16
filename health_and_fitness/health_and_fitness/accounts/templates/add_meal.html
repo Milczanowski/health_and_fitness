@@ -1,0 +1,84 @@
+﻿{% load static %}
+ <script src="{% static 'js_ajax.js' %}" type="text/javascript"></script> 
+
+{% csrf_token %}
+
+
+<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; margin-top: 10px; font-size: 20px;">
+    <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <center>
+            <p>ADD RECIPE</p>
+            NAME:<input type="text" id="recipe_n" /><br />
+            DESCRITION:<textarea style="width:400px; height: 20px;" id="recipe_d"></textarea> <br />
+            <div id="add_meal_cnt">
+                TYPE:
+                {% for type in recipe_type %}
+                    <input type="checkbox" name="recipe_type" value="{{type.id}}" id="recipe_type_ch"/>{{ type.Name}}
+                {% endfor %}
+            </div> 
+            TIME (minutes):<input type="number" id="recipe_t" value="1" min="1"/><br />
+            DIFFICULTY:<input type="number" id="recipe_di" value="1" min="1" max="20" /><br />
+
+            <div id="add_ingre_to_rec">
+                INGREDIENT:
+                <select id="ingre_select">
+                    {% for type in recipe_ingre %}
+                        <option value="{{type.id}}" name="{{type.Name}}" >{{ type.Name}}</option> 
+                    {% endfor %}
+                </select>
+                <input type="number" value="1" min="1" id="add_recipe_number" />
+                 
+                <select id="unit_select">
+                {% for unit in units %}
+                    <option value="{{unit.id}}" name="{{ unit.Name}}" >{{ unit.Name}}</option> 
+                {% endfor %}
+                </select>
+                <button onclick="add_ingre_to_rec()">ADD</button>
+            </div> 
+            <div style="background-color:cadetblue;" id="recipe_add_ingre"> 
+            </div>
+            <button onclick="add_recipe()">ADD</button>
+        </center>
+    </div>
+
+        <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <center>
+            <p>ADD MEAL TYPE</p>
+            NAME:<input type="text" id="meal_type" /><br />
+            DESCRITION:<textarea style="width:400px; height: 20px;" id="meal_type_d"></textarea> <br />
+            <button onclick="add_meal_type()">ADD</button>
+        </center>
+    </div>
+
+
+   <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <center>
+            <p>ADD INGREDIENT</p>
+            NAME:<input type="text" id="ingre" /><br />
+            DESCRITION:<textarea style="width:400px; height: 20px;" id="ingre_d"></textarea> <br />
+            <div id="add_ingre_cnt">
+                {% for type in ing_type %}                                                
+                    <input type="checkbox" name="i_type" value="{{type.id}}" id="ing_type_ch"/>{{ type.Name}}
+                {% endfor %}
+            </div>
+            <button onclick="add_ingre()">ADD</button>
+        </center>
+    </div>
+
+    <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <center>
+            <p>ADD INGREDIENT TYPE</p>
+            NAME:<input type="text" id="ingre_type" /><br />
+            DESCRITION:<textarea style="width:400px; height: 20px;" id="ingre_type_d"></textarea> <br />
+            <button onclick="add_ingre_type()">ADD</button>
+        </center>
+    </div>
+
+    <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <center>
+            <p>ADD UNIT</p>
+            <input type="text" id="add_unit" />
+            <button onclick="add_unit()">ADD</button>
+        </center>
+    </div>
+</div>

@@ -8,7 +8,7 @@ from django.views.static import serve
 
 urlpatterns = [
      url(r'^forum/',  include('forum.urls')),
-
+     url(r'^user/',  include('accounts.urls')),
      url(r'^diet/',  include('diet.urls')),
      url(r'^admin/', include(admin.site.urls)),
 

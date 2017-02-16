@@ -1,6 +1,32 @@
 ﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; font-size: 20px;">
      <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
-        <p style="font-size: 30px;"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:100px;height:100px;"/>{{ meal.Name}} </p>
+         <div>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="height: 100px; width: 100px;">
+                        <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:100px;height:100px;"/>
+                    </td>
+                    <td>
+                        <p style="font-size: 30px;">{{ meal.Name}}</p>
+                    </td>
+                    <td style="height: 100px; width: 100px;">
+                        {% if is_favorite %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="remove_from_f" />
+                                <input  type="image" src="/media/heart_on.png" alt="REMOVE FROM FAVORITES" style="width:100px;height:100px;" />
+                            </form>
+                        {% else %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="add_to_f" />
+                                <input  type="image" src="/media/heart_off.png" alt="ADD TO FAVORITES" style="width:100px;height:100px;"/>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+         </div>
          <div>{{ meal.Creation_Data }}</div>
          <div>{{ meal.Creator }}</div>
          <div>RATING    : {{ meal.get_rating }}</div>

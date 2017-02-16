@@ -14,7 +14,7 @@
                 <td> {{ diet.Creator}}    </td>
                 <td> {{ diet.get_rating}} </td>
                 <td>  {% for type in diet.Types.all%}
-                      <div>{{type}}</div>
+                      {{type}}
                       {% endfor%}
                 </td>
             </tr>

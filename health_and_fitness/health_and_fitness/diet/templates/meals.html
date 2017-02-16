@@ -93,8 +93,8 @@
     </div>
     <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
         <center>
-            <table style="width: 100%; ">
-            <tr style="height: 50px; background-color:navy;">
+            <table style="width: 100%;" id="meals_table">
+            <tr style="height: 50px; background-color:navy;" id="meals_table_tr_top">
                 <td></td>
                 <td>NAME</td>
                 <td>CREATOR</td>
@@ -105,13 +105,13 @@
                 <td>INGREDIENTS</td>
             </tr>
             {% for meal in meals %}
-            <tr>
+            <tr id="meals_table_tr">
                 <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a></td>
                 <td> <a href="/diet/meal/{{meal.id}}/">{{ meal.Name }}</a></td>
                 <td> {{ meal.Creator}}    </td>
                 <td> {{ meal.get_rating}} </td>
                 <td>  {% for type in meal.Types.all%}
-                      <div>{{type}}</div>
+                        {{ type }}
                       {% endfor%}
                 </td>
                 <td>{{ meal.get_time }} </td>

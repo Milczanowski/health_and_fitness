@@ -2659,3 +2659,8 @@ C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Micro
 2017-02-14T12:25:26: [WARNING] Library was set explicitly - skipping path detection
 2017-02-14T12:25:26: IncludeModulesFromModulePath = win32com
 2017-02-14T12:25:26: Deleting 0 files
+
+2017-02-15T12:29:02: Start analysis
+2017-02-15T12:29:02: [WARNING] Library was set explicitly - skipping path detection
+2017-02-15T12:29:02: IncludeModulesFromModulePath = win32com
+2017-02-15T12:29:02: Deleting 0 files

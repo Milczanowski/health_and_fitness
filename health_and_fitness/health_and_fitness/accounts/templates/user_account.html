@@ -1,0 +1,100 @@
+﻿<div style="background-color: dimgrey; width:1000px; text-align:left; color:white; margin-top: 10px; font-size: 20px;">
+   <form method="get" action="/user/add_meal/">
+    <input type="submit" value="ADD RECIPE" style="width:100%; height:40px; background-color:greenyellow; font-size: 30px;"/>
+   </form>
+   {% if user_account.Favorite_Meals.count != 0 %}
+    <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+        <center>
+                <p> FAVORITE MEALS</p>
+                <table style="width: 100%;" id="meals_table">
+                <tr style="height: 50px; background-color:navy;" id="meals_table_tr_top">
+                    <td></td>
+                    <td>NAME</td>
+                    <td>CREATOR</td>
+                    <td>RATING</td>
+                    <td>TYPES</td>
+                    <td>TIME</td>
+                    <td>DIFFICULTY</td>
+                    <td>INGREDIENTS</td>
+                </tr>
+                {% for meal in user_account.Favorite_Meals.all %}
+                <tr id="meals_table_tr">
+                    <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a></td>
+                    <td> <a href="/diet/meal/{{meal.id}}/">{{ meal.Name }}</a></td>
+                    <td> {{ meal.Creator}}    </td>
+                    <td> {{ meal.get_rating}} </td>
+                    <td>  {% for type in meal.Types.all%}
+                          {{type}}
+                          {% endfor%}
+                    </td>
+                    <td>{{ meal.get_time }} </td>
+                    <td>{{ meal.Difficulty }}</td>
+                    <td>{{ meal.Ingredients.count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </center>
+    </div>
+    {% endif %}
+
+    {% if user_account.Favorite_Diets.count != 0 %}  
+        <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;">
+            <center>
+                <p> FAVORITE DIETS</p>
+                <table style="width: 100%;" id="diet_table">
+                <tr style="height: 50px; background-color:navy;" id="diet_table_tr_top">
+                    <td>NAME</td>
+                    <td>CREATOR</td>
+                    <td>RATING</td>
+                    <td>TYPES</td>
+                </tr>
+                {% for diet in user_account.Favorite_Diets.all %}
+                <tr id="diet_table_tr">
+                    <td> <a href="/diet/{{diet.id}}/">{{ diet.Name }}</a></td>
+                    <td> {{ diet.Creator}}    </td>
+                    <td> {{ diet.get_rating}} </td>
+                    <td>  {% for type in diet.Types.all%}
+                          {{type}}
+                          {% endfor%}
+                    </td>
+                </tr>
+                {% endfor %}
+                </table>
+            </center>
+        </div>
+    {% endif %}
+
+    {% if maals.count != 0 %}
+    <div style="background-color:cornflowerblue; width:980px; text-align:left; color:white; margin-left:10px;" >
+        <center>
+                <p>YOUR MEALS</p>
+                <table style="width: 100%; " id="meals_table">
+                <tr style="height: 50px; background-color:navy;" id="meals_table_tr">
+                    <td></td>
+                    <td>NAME</td>
+                    <td>RATING</td>
+                    <td>TYPES</td>
+                    <td>TIME</td>
+                    <td>DIFFICULTY</td>
+                    <td>INGREDIENTS</td>
+                </tr>
+                {% for meal in meals %}
+                <tr id="meals_table_tr_top">
+                    <td><a href="/diet/meal/{{meal.id}}/"> <img src="/media/{{meal.Image}}" alt="{{ meal.Name }}" style="width:50px;height:50px;"/></a></td>
+                    <td> <a href="/diet/meal/{{meal.id}}/">{{ meal.Name }}</a></td>
+                    <td> {{ meal.get_rating}} </td>
+                    <td>  {% for type in meal.Types.all%}
+                          {{type}}
+                          {% endfor%}
+                    </td>
+                    <td>{{ meal.get_time }} </td>
+                    <td>{{ meal.Difficulty }}</td>
+                    <td>{{ meal.Ingredients.count }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </center>
+    </div>
+    {% endif %}
+
+</div>
